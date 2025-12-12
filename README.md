@@ -39,3 +39,30 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Use npx prisma db push
 to update db
 
+## Documentation
+
+The Big Three
+
+Next.js 15: nextjs.org/docs (Look for "App Router")
+
+TypeScript: typescriptlang.org/docs (Use the "Handbook")
+
+React: react.dev (Do not use the old reactjs.org, it is outdated)
+
+The Data Layer
+
+Prisma: prisma.io/docs
+
+PostgreSQL: postgresql.org/docs
+
+Neon: neon.tech/docs
+
+Supabase: supabase.com/docs
+
+Styling & Deploy
+
+Tailwind CSS: tailwindcss.com/docs (Ctrl+K on this site is magic)
+
+Vercel: vercel.com/docs
+
+Docker: docs.docker.com
