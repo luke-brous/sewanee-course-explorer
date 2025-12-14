@@ -14,21 +14,47 @@ datasource db {
 }
 
 model Course {
-  id          String   @id @default(cuid())
-  code        String   @unique              // e.g. "CS 101"
-  title       String                        // e.g. "Intro to Computer Science"
-  description String?
-  instructor  String?
-  days        String?                       // e.g. "MWF"
-  startTime   String?
-  endTime     String?
-  location    String?
-  credits     String?
+  // Important DO NOT CHANGE
+  id      String        @id @default(cuid())
 
-  // Live data fields (for the 30-min updates)
-  enrolled    Int      @default(0)
-  limit       Int      @default(0)
+  crn     Int           
+  title   String  
+  num     Int 
+  section String       @default("A") 
+  uid     String       @unique
+  
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+
+  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
