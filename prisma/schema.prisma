@@ -5,25 +5,49 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
+  // Let the default go to next.js 
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Course {
   // Important DO NOT CHANGE
-  id      String        @id @default(cuid())
+  id          String        @id @default(cuid())
+    
+  // uid (url friendly id)
+  uid         String       @unique
 
-  crn     Int           
-  title   String  
-  num     Int 
-  section String       @default("A") 
-  uid     String       @unique
+  crn         Int           
+  title       String  
+  level       String       // course level (from num column)
+  section     String       @default("A") 
   
+  term        String       // parsed from cat_term
+  year        Int          // parsed from cat_term
+      
+  credits     Int?          
+  meetingTime String?       
+  faculty     String?
+  location    String       @default("TBA")
+   
+  limit       Int 
+  enrolled    Int          @default(0)
 
+  createdAt   DateTime @default(now()) // when the record was created
+  updatedAt   DateTime @updatedAt      // when the record was last updated
+  
+  attributes  String?
+  description String?
+
+  major       String?          // will ne taken from subj
+  subject     String?          // will be taken from subj_code
+
+
+  @@unique([crn, term, year], name: "unique_class")
 
 
   
