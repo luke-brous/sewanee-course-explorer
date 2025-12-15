@@ -40,7 +40,7 @@ model Course {
   createdAt   DateTime @default(now()) // when the record was created
   updatedAt   DateTime @updatedAt      // when the record was last updated
   
-  attributes  String?
+  attributes  String?          // will be taken from info
   description String?
 
   major       String?          // will ne taken from subj
