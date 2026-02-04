@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+# object-relational mapping (ORM) library for Python, used to interact with databases in an object-oriented way.
 import psycopg2
 import os
 from dotenv import load_dotenv
@@ -40,12 +41,15 @@ def upload_to_neon(df):
     INSERT INTO "Course" (
         id, uid, crn, title, level, section, term, year, 
         credits, "meetingTime", faculty, location, "limit", 
-        enrolled, description, major, subject
-    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    ON CONFLICT ON CONSTRAINT unique_class DO UPDATE SET
+        enrolled, description, major, subject,
+        "createdAt", "updatedAt"
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (crn, term, year) DO UPDATE SET
         title = EXCLUDED.title,
         faculty = EXCLUDED.faculty,
-        "meetingTime" = EXCLUDED."meetingTime";
+        "meetingTime" = EXCLUDED."meetingTime",
+        enrolled = EXCLUDED.enrolled,
+        "updatedAt" = CURRENT_TIMESTAMP;
     """
     
     try:
@@ -80,11 +84,24 @@ def upload_to_neon(df):
                 
     except Exception as e:
         print(f"❌ Database error: {e}")
-
+        
 if __name__ == "__main__":
+    print("🚀 Script started...") # If you don't see this, the file isn't running at all
+    
     try:
         course_file = 'data/spring_26_courses.csv'
-        cleaned_df = get_cleaned_df(course_file)
-        upload_to_neon(cleaned_df)
+        
+        # Check if file exists before calling anything
+        if not os.path.exists(course_file):
+            print(f"❌ ERROR: File not found at {os.path.abspath(course_file)}")
+        else:
+            print(f"✅ Found file: {course_file}")
+            
+            cleaned_df = get_cleaned_df(course_file)
+            print(f"✅ Cleaned {len(cleaned_df)} rows.")
+            
+            upload_to_neon(cleaned_df)
+            print("🏁 Script finished.")
+            
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"💥 CRITICAL ERROR in main: {e}")
