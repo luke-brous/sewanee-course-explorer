@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+.next/
+
+# Environment and Secrets (CRITICAL)
+.env
+.env.*
+*.pem
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Massive lock files that consume tokens
+package-lock.json
+
+# Version control
+.git/
+
+# Static assets (AI doesn't need to read images)
+public/
+assets/
